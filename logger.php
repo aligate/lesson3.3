@@ -17,9 +17,9 @@ public $product;
 
  function __call($method_name, $args) 
  {
-      	 $method =  date('m-d-Y H:i').' Method: '.$method_name;
+      	 $methodToLog =  date('m-d-Y H:i').' Method: '.$method_name;
 	  $file = $this->path->getPath($this).'/'.time().'.txt';
-	  file_put_contents($file, $method);
+	  file_put_contents($file, $methodToLog);
 	 return call_user_func_array(array($this->product, $method_name), $args);
  }
 }
