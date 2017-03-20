@@ -7,7 +7,7 @@ class Logger{
 private $path;
 public $product;
 	
-	public function __construct(Conf $conf, Product $product){
+	public function __construct(Conf $conf, $product){
 	
 	$this->path = new Conf;
 	$this->product = $product;
