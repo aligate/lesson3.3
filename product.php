@@ -30,7 +30,7 @@ class Handbag extends Product
 	
 	protected $discount = 10;
 
-	public $cache;
+	private $cache;
 	
 	public function __construct($price, $weight){
 		
@@ -48,16 +48,16 @@ class Handbag extends Product
 	public function priceCache($key){
 		
 	
-		if(!$this->cache->getCache($key)){
-		 $this->cache->setCache($key);
+		if ( ! $this->cache->getCache( $key ) ){
+		 $this -> cache -> setCache ( $key );
 		}
-		return $this->cache->getCache($key);
+		return $this -> cache -> getCache ( $key );
 	}
 	
 	
 	public function getSummary($key){
 		
-		echo 'цена: '.$this->priceCache($key).' доставка: '.$this->getDelivery();
+		echo 'Цена за сумку: '.$this->priceCache($key).' Доставка: '.$this->getDelivery();
 	
 	}
 }
@@ -67,7 +67,7 @@ class Handbag extends Product
 trait Delivery{
 	
 	public function getDelivery(){
-		if(isset($this->discount)) $this->delivery = 300;
+		if ( isset ( $this->discount ) ) $this->delivery = 300;
 		return $this->delivery;
 	}
 }
