@@ -14,6 +14,10 @@ protected $discount = null;
 public function __construct($price, $weight){
 	
 	$this->price = $price;
+	if ( $price == 0 )
+	{
+		throw new Exception ("Цена должна быть больше нуля");
+	}
 	
 	$this->weight = $weight;
 	}
@@ -71,7 +75,13 @@ trait Delivery{
 // Создаем объекты
 
 $conf = new Conf();
-$handbag = new Handbag(100, 1);
+try
+{
+	$handbag = new Handbag(100, 1);
+}
+catch (Exception $e){
+	echo 'Ошибка: '.$e->getMessage();
+}
 $logger = new Logger($conf, $handbag);
 $logger ->getSummary('new');
 
