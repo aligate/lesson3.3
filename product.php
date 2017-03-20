@@ -74,15 +74,15 @@ trait Delivery{
 
 // Создаем объекты
 
-$conf = new Conf();
+
 try
 {
-	$handbag = new Handbag(100, 1);
+	$logger = new Logger ( new Conf, new Handbag(100, 1 ) );
 }
-catch (Exception $e){
+catch ( Exception $e ){
 	echo 'Ошибка: '.$e->getMessage();
 }
-$logger = new Logger($conf, $handbag);
+
 $logger ->getSummary('new');
 
 
