@@ -2,16 +2,17 @@
 
 require_once 'logger.php';
 require_once 'cache.php';
-
-abstract class Product{
+// Абстрактный клвсс Продукт
+abstract class Product
+{
 
 protected $price;
 protected $weight;
 protected $delivery = 250;
 protected $discount = null;
 
-
-public function __construct($price, $weight){
+public function __construct($price, $weight)
+{
 	
 	$this->price = $price;
 	if ( $price == 0 )
@@ -32,7 +33,8 @@ class Handbag extends Product
 
 	private $cache;
 	
-	public function __construct($price, $weight){
+	public function __construct($price, $weight)
+	{
 		
 		parent::__construct($price, $weight);
 		
@@ -40,14 +42,11 @@ class Handbag extends Product
 		
 		$this->cache = new Cache(new Conf, $this->price);
 	
-		
 	}
 	
-	
-	
-	public function priceCache($key){
+	public function priceCache($key)
+	{
 		
-	
 		if ( ! $this->cache->getCache( $key ) ){
 		 $this -> cache -> setCache ( $key );
 		}
@@ -55,31 +54,32 @@ class Handbag extends Product
 	}
 	
 	
-	public function getSummary($key){
-		
+	public function getSummary($key)
+	{
 		echo 'Цена за сумку: '.$this->priceCache($key).' Доставка: '.$this->getDelivery();
-	
 	}
 }
 
 
 // Трейт
-trait Delivery{
+trait Delivery
+{
 	
-	public function getDelivery(){
+	public function getDelivery()
+	{
 		if ( isset ( $this->discount ) ) $this->delivery = 300;
 		return $this->delivery;
 	}
 }
+// Конец описания классов
 
-// Создаем объекты
-
-
+// Создаем объект
 try
 {
 	$logger = new Logger ( new Conf, new Handbag(100, 1 ) );
 }
-catch ( Exception $e ){
+catch ( Exception $e )
+{
 	echo 'Ошибка: '.$e->getMessage();
 }
 
