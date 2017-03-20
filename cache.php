@@ -3,10 +3,11 @@ require_once 'conf.php';
 
 class Cache{
 	
-public $path;	
+private $path;	
 private $data;
 
-public function __construct(Conf $conf, $data){
+public function __construct(Conf $conf, $data)
+{
 	
 	$this->path = new Conf;
 	$this->data = $data;
@@ -30,7 +31,8 @@ public function getCache($key)
 		
 		$content = unserialize(file_get_contents($file));
 		
-		if(time()< $content['end_time']){
+		if ( time()< $content['end_time']) 
+		{
 			return $content['data'];
 		} 
 		else {
