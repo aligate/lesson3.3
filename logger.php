@@ -4,9 +4,8 @@ require_once 'conf.php';
 
 class Logger{
 	
-public $path;
+private $path;
 public $product;
-public $method;
 	
 	public function __construct(Conf $conf, Product $product){
 	
@@ -16,13 +15,12 @@ public $method;
 
 }
 
- function __call($method_name, $args) {
-       $this->method =  date('m-d-Y H:i').' Method: '.$method_name;
+ function __call($method_name, $args) 
+ {
+       $method =  date('m-d-Y H:i').' Method: '.$method_name;
 	   $file = $this->path->getPath($this).'/'.time().'.txt';
-	   file_put_contents($file, $this->method);
+	   file_put_contents($file, $method);
  }
-
- 
 }
 
 
