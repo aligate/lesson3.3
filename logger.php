@@ -5,7 +5,7 @@ require_once 'conf.php';
 class Logger{
 	
 private $path;
-public $product;
+private $product;
 	
 	public function __construct(Conf $conf, $product){
 	
