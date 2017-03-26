@@ -44,19 +44,19 @@ class Handbag extends Product
 	
 	}
 	
-	public function priceCache($key)
+	public function priceCache($file_key)
 	{
 		
-		if ( ! $this->cache->getCache( $key ) ){
-		 $this -> cache -> setCache ( $key );
+		if ( ! $this->cache->getCache( $file_key ) ){
+		 $this -> cache -> setCache ( $file_key );
 		}
-		return $this -> cache -> getCache ( $key );
+		return $this -> cache -> getCache ( $file_key );
 	}
 	
 	
-	public function getSummary($key)
+	public function getSummary($file_key)
 	{
-		echo 'Цена за сумку: '.$this->priceCache($key).' Доставка: '.$this->getDelivery();
+		echo 'Цена за сумку: '.$this->priceCache($file_key).' Доставка: '.$this->getDelivery();
 	}
 }
 
