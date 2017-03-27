@@ -2,22 +2,20 @@
 
 require_once 'logger.php';
 require_once 'cache.php';
-// Абстрактный клвсс Продукт
-abstract class Product
-{
+
+abstract class Product{
 
 protected $price;
 protected $weight;
 protected $delivery = 250;
-protected $discount = null;
+protected $discount;
 
-public function __construct($price, $weight)
-{
+
+public function __construct($price, $weight){
 	
 	$this->price = $price;
-	if ( $price == 0 )
-	{
-		throw new Exception ("Цена должна быть больше нуля");
+	if($price ==0){
+		throw new Exception("Цена должна быть больше нуля");
 	}
 	
 	$this->weight = $weight;
@@ -29,61 +27,60 @@ class Handbag extends Product
 {
 	use Delivery;
 	
-	protected $discount = 10;
-
 	private $cache;
 	
-	public function __construct($price, $weight)
-	{
+	public function getPrice($discount = null){
 		
-		parent::__construct($price, $weight);
-		
-		$this->price = round($this->price -($this->price * $this->discount /100));
-		
-		$this->cache = new Cache(new Conf, $this->price);
-	
-	}
-	
-	public function priceCache($file_key)
-	{
-		
-		if ( ! $this->cache->getCache( $file_key ) ){
-		 $this -> cache -> setCache ( $file_key );
+		if(isset($discount))
+		{
+			$this->discount = $discount;
+			$this->price = round($this->price -($this->price * $this->discount /100));
 		}
-		return $this -> cache -> getCache ( $file_key );
+		return $this->price;
+	}
+	
+	public function priceInCache($filename,$discount){
+		
+		$endprice = $this->getPrice($discount);
+		$this->cache = new Cache(new Conf, $endprice);
+	
+		if(!$this->cache->getCache($filename)){
+		 $this->cache->setCache($filename);
+		}
+		return $this->cache->getCache($filename);
 	}
 	
 	
-	public function getSummary($file_key)
-	{
-		echo 'Цена за сумку: '.$this->priceCache($file_key).' Доставка: '.$this->getDelivery();
+	public function getSummary($filename, $discount){
+		
+		echo 'Цена за сумку: '.$this->priceInCache($filename, $discount).' Доставка: '.$this->getDelivery();
+	
 	}
 }
 
 
 // Трейт
-trait Delivery
-{
+trait Delivery{
 	
-	public function getDelivery()
-	{
-		if ( isset ( $this->discount ) ) $this->delivery = 300;
+	public function getDelivery(){
+		if(isset($this->discount)) $this->delivery = 300;
 		return $this->delivery;
 	}
 }
-// Конец описания классов
 
-// Создаем объект
-try
-{
-	$logger = new Logger ( new Conf, new Handbag(100, 1 ) );
+// Создаем объекты
+
+
+try{
+	$logger = new Logger(new Conf, new Handbag(100, 1));
 }
-catch ( Exception $e )
+catch (Exception $e)
 {
 	echo 'Ошибка: '.$e->getMessage();
 }
 
-$logger ->getSummary('new');
+
+echo $logger ->getSummary('new',10);
 
 
 
